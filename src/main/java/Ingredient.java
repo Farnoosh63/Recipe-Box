@@ -92,6 +92,7 @@ public class Ingredient {
     }
   }
 
+
   public List<Recipe> getRecipes() {
     try(Connection con = DB.sql2o.open()){
       String joinQuery = "SELECT recipe_id FROM recipes_ingredients WHERE ingredient_id = :ingredient_id";

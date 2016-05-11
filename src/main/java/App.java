@@ -58,10 +58,16 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       if (request.queryParams().contains("recipe_id")){
         int recipeIdThatBeingSearched = Integer.parseInt(request.queryParams("recipe_id"));
-        List<Category> recipeSearched = Recipe.find(recipeIdThatBeingSearched).getCategories();
-        model.put("categories",recipeSearched );
+        List<Category> categoriesSearched = Recipe.find(recipeIdThatBeingSearched).getCategories();
+        model.put("categories",categoriesSearched );
+      }
+      if (request.queryParams().contains("ingredient_id")){
+        int ingredientIdThatBeingSearched = Integer.parseInt(request.queryParams("ingredient_id"));
+        List<Recipe> recipesSearched = Ingredient.find(ingredientIdThatBeingSearched).getRecipes();
+        model.put("recipes",recipesSearched );
       }
       model.put("allRecipes", Recipe.all());
+      model.put("allIngredients", Ingredient.all());
       model.put("template", "templates/category-search.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -86,6 +92,7 @@ public class App {
     get("/recipes/:id", (request,response) ->{
       HashMap<String, Object> model = new HashMap<String, Object>();
       Recipe recipe = Recipe.find(Integer.parseInt(request.params(":id")));
+
       model.put("recipe", recipe);
       model.put("allCategories", Category.all());
       model.put("template", "templates/recipe.vtl");
@@ -98,6 +105,19 @@ public class App {
       Recipe recipe = Recipe.find(recipeId);
       Category category = Category.find(categoryId);
       recipe.addCategory(category);
+      response.redirect("/recipes/" + recipeId);
+      return null;
+    });
+
+    post("/add_ingredients", (request, response) -> {
+      String ingredient_description = request.queryParams("ingredient_id");
+
+      int recipeId = Integer.parseInt(request.queryParams("recipe_id"));
+      Recipe recipe = Recipe.find(recipeId);
+      Ingredient ingredient = new Ingredient(ingredient_description);
+      ingredient.save();
+      recipe.addIngredient(ingredient);
+      System.out.println(ingredient.getName());
       response.redirect("/recipes/" + recipeId);
       return null;
     });

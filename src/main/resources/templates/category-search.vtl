@@ -1,20 +1,49 @@
 
-<p>Category Search By Recipe</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <p>Category Search By Recipe</p>
 
-<form action='/categories/search' method='get'>
-  <label for="recipe_id">Select an recipe</label>
-  <select id='recipe_id' name='recipe_id' type='text'>
-    #foreach($recipe in $allRecipes)
-      <option value="$recipe.getId()"> $recipe.getName() </option>
-    #end
-  </select>
-  <button id="search-button" type="submit" class="btn btn-info">Search</button>
-</form>
+      <form action='/categories/search' method='get'>
+        <label for="recipe_id">Select an recipe</label>
+        <select id='recipe_id' name='recipe_id' type='text'>
+          #foreach($recipe in $allRecipes)
+          <option value="$recipe.getId()"> $recipe.getName() </option>
+          #end
+        </select>
+        <button id="search-button" type="submit" class="btn btn-info">Search</button>
+      </form>
 
-<a href="/$category.all()">Return to categories</a>
+      #if($categories)
+      <ul>
+        #foreach ($category in $categories)
+        <li><a href="/categories/$category.getId()">$category.getName()</a></li>
+        #end
+      </ul>
+      #end
+    </div>
 
-<ul>
-  #foreach ($category in $categories)
-    <li><a href="/categories/$category.getId()">$category.getName()</a></li>
-  #end
-</ul>
+    <div class="col-lg-6">
+      <p>Recipe Search By Ingredient</p>
+
+      <form action='/recipe/search' method='get'>
+        <label for="ingredient_id">Select an Ingredient</label>
+        <select id='ingredient_id' name='ingredient_id' type='text'>
+          #foreach($ingredient in $allIngredients)
+          <option value="$ingredient.getId()"> $ingredient.getName() </option>
+          #end
+        </select>
+        <button id="searchByIngredient" type="submit" class="btn btn-info">Search</button>
+      </form>
+
+      #if($recipes)
+      <ul>
+        #foreach ($recipe in $recipes)
+        <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a></li>
+        #end
+      </ul>
+      #end
+    </div>
+  </div>
+
+</div>

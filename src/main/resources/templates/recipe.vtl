@@ -10,6 +10,7 @@
   </ul>
 #end
 
+
 <h5>Add a category to this recipe:</h5>
 
 <form action='/add_categories' method='post'>
@@ -22,6 +23,23 @@
   </select>
   <button type="submit" class="btn btn-info">Add category to this recipe</button>
 </form>
+
+<h5>Add a ingredient to this recipe:</h5>
+
+<form action='/add_ingredients' method='post'>
+  <input id="recipe_id" name="recipe_id" type="hidden" value="$recipe.getId()">
+  <label for="ingredient_id">Select a ingredient</label>
+  <input id="ingredient_id" type="text" name="ingredient_id">
+  <button id="ingredient_id_button" type="submit" class="btn btn-info">Add ingredient to this recipe</button>
+</form>
+
+#if($recipe.getIngredients())
+  <ul>
+    #foreach($ingredient in $recipe.getIngredients())
+        <li>$ingredient.getName()</li>
+    #end
+  </ul>
+#end
 
 <p><a href="/recipes/$recipe.getId()/edit">Edit this recipe</a></p>
 
