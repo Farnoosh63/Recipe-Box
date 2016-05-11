@@ -7,9 +7,11 @@ import java.util.ArrayList;
 public class Recipe {
   private int id;
   private String recipe_name;
+  private int rating;
 
   public Recipe(String name) {
     this.recipe_name = name;
+    rating = 3;
   }
 
   public String getName() {
@@ -20,8 +22,12 @@ public class Recipe {
     return id;
   }
 
+  public int getRating() {
+    return rating;
+  }
+
   public static List<Recipe> all() {
-    String sql = "SELECT id, recipe_name FROM recipes";
+    String sql = "SELECT id, recipe_name, rating FROM recipes";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Recipe.class);
     }
@@ -40,9 +46,10 @@ public class Recipe {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO recipes(recipe_name) VALUES (:name)";
+      String sql = "INSERT INTO recipes(recipe_name,rating ) VALUES (:name, :rating)";
       this.id = (int) con.createQuery(sql, true)
       .addParameter("name", this.recipe_name)
+      .addParameter("rating", 3)
       .executeUpdate()
       .getKey();
     }
@@ -55,6 +62,25 @@ public class Recipe {
       .addParameter("id", id)
       .executeAndFetchFirst(Recipe.class);
       return recipe;
+    }
+  }
+
+
+  public int findRating() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT rating FROM recipes where id=:id";
+      int recipe = con.createQuery(sql)
+      .addParameter("id", this.id)
+      .executeAndFetchFirst(Integer.class);
+      return recipe;
+    }
+  }
+
+  public static List<Recipe> sortByRatings() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM recipes ORDER BY rating ASC ";
+
+      return con.createQuery(sql).executeAndFetch(Recipe.class);
     }
   }
 
@@ -119,34 +145,34 @@ public class Recipe {
   }
 
 
-  public void addTag(Tag tag) {
+  public void addIngredient(Ingredient ingredient) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO recipes_tags (recipe_id, tag_id) VALUES (:recipe_id, :tag_id)";
+      String sql = "INSERT INTO recipes_ingredients(recipe_id, ingredient_id) VALUES (:recipe_id, :ingredient_id)";
       con.createQuery(sql)
       .addParameter("recipe_id", this.getId())
-      .addParameter("tag_id", tag.getId())
+      .addParameter("ingredient_id", ingredient.getId())
       .executeUpdate();
     }
   }
 
-  public List<Tag> getTags() {
+  public List<Ingredient> getIngredients() {
     try(Connection con = DB.sql2o.open()){
 
-      String joinQuery = "SELECT tag_id FROM recipes_tags WHERE recipe_id = :recipe_id";
-      List<Integer> tagIds = con.createQuery(joinQuery)
+      String joinQuery = "SELECT ingredient_id FROM recipes_ingredients WHERE recipe_id = :recipe_id";
+      List<Integer> ingredientIds = con.createQuery(joinQuery)
       .addParameter("recipe_id", this.getId())
       .executeAndFetch(Integer.class);
 
-      List<Tag> tags = new ArrayList<Tag>();
+      List<Ingredient> ingredients= new ArrayList<Ingredient>();
 
-      for (Integer tagId : tagIds) {
-        String tagQuery = "SELECT * FROM tags WHERE id = :tagId";
-        Tag tag = con.createQuery(tagQuery)
-        .addParameter("tagId", tagId)
-        .executeAndFetchFirst(Tag.class);
-        tags.add(tag);
+      for (Integer ingredientId : ingredientIds) {
+        String ingredientQuery = "SELECT * FROM ingredients WHERE id = :ingredientId";
+        Ingredient ingredient = con.createQuery(ingredientQuery)
+        .addParameter("ingredientId", ingredientId)
+        .executeAndFetchFirst(Ingredient.class);
+        ingredients.add(ingredient);
       }
-      return tags;
+      return ingredients;
     }
   }
 
@@ -165,8 +191,8 @@ public class Recipe {
       .executeUpdate();
 
 
-      String joinDeleteRecipesTagsQuery = "DELETE FROM recipes_tags WHERE recipe_id = :recipeId";
-      con.createQuery(joinDeleteRecipesTagsQuery)
+      String joinDeleteRecipesIngredientsQuery = "DELETE FROM recipes_ingredients WHERE recipe_id = :recipeId";
+      con.createQuery(joinDeleteRecipesIngredientsQuery)
       .addParameter("recipeId", this.getId())
       .executeUpdate();
     }
@@ -177,6 +203,17 @@ public class Recipe {
       String sql = "UPDATE recipes SET recipe_name = :name WHERE id = :id";
       con.createQuery(sql)
       .addParameter("name", newRecipe)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
+  }
+
+  public void updateRating(int newRating) {
+    // this.rating = newRating;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE recipes SET rating = :rating WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("rating", newRating)
       .addParameter("id", this.id)
       .executeUpdate();
     }

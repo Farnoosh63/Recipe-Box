@@ -3,24 +3,27 @@
   <head>
     <title></title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/app.css'>
   </head>
   <body>
     <div class="container">
-
       #parse( $template )
+      <div style="text-align: center;">
 
-    </div>
 
-    <div style="text-align: center;">
-      <a href="/">Return to home</a>
-
-      #if ($recipes)
-      <ul>
-        #foreach ($recipe in $recipes)
-          <li><a href="/recipe.getId()">$recipe.getName()</a></li>
+        #if ($recipes)
+        <button><a href="/sorting" class="btn btn-link">Sort by rating <a></button>
+        <ul>
+          #foreach ($recipe in $recipes)
+            <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a> rating is: $recipe.getRating()</li>
+          #end
+        </ul>
         #end
-      </ul>
-      #end
+
+      </div>
     </div>
+    <footer style="text-align: center">
+      <a href="/">Return to home</a>
+    </footer>
   </body>
 </html>

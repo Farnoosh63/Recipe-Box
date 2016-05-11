@@ -1,7 +1,8 @@
 <h1>$recipe.getName()</h1>
+<h4> the rating for this recipe is : $recipe.getRating() </h4>
 
 #if($recipe.getCategories())
-  <p>Here are the categories for this recipe:</p>
+
   <ul>
     #foreach($category in $recipe.getCategories())
       <li>$category.getName()</li>
@@ -9,7 +10,7 @@
   </ul>
 #end
 
-<h4>Add a category to this recipe:</h4>
+<h5>Add a category to this recipe:</h5>
 
 <form action='/add_categories' method='post'>
   <input id="recipe_id" name="recipe_id" type="hidden" value="$recipe.getId()">
@@ -23,4 +24,6 @@
 </form>
 
 <p><a href="/recipes/$recipe.getId()/edit">Edit this recipe</a></p>
+
+
 <p><a href="/recipes/$recipe.getId()/delete">Delete this recipe</a></p>

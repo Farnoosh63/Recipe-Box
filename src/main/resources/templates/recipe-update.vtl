@@ -1,11 +1,11 @@
 <h1>$recipe.getName()</h1>
 
-#if ($recipe.getTags())
-  <ul>
-    #foreach ($tag in $recipe.getTags())
-      <li><a href="/tag.getId()">$tag.getName()</a></li>
-    #end
-  </ul>
+#if ($recipe.getIngredients())
+<ul>
+  #foreach ($ingredient in $recipe.getIngredients())
+  <li><a href="/ingredient.getId()">$ingredient.getName()</a></li>
+  #end
+</ul>
 #end
 
 <p>Edit recipe:</p>
@@ -13,6 +13,10 @@
 <form action="/recipes/$recipe.getId()/edit" method="post">
   <input id="recipe_update_id" name="recipe_update_id" type="hidden" value="$recipe.getId()">
   <label for="recipe-update">Update to:</label>
-  <input id="recipe-update" name="recipe-update" type="text">
+  <input id="recipe-update" name="recipe-update" type="text" required>
+
+  <label for="rating-update">Update rating to:</label>
+  <input id="rating-update" name="rating-update" type="text" required>
+
   <button type="submit" class="btn btn-info" id="update-recipe">Update Recipe</button>
 </form>

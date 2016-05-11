@@ -21,7 +21,7 @@ public class AppTest extends FluentTest {
   public static ServerRule server = new ServerRule();
 
   @Rule
-    public DatabaseRule database = new DatabaseRule();
+  public DatabaseRule database = new DatabaseRule();
 
   @Test
   public void rootTest() {
@@ -34,125 +34,139 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/");
     click("a", withText("Recipes"));
     fill("#name").with("Pasta");
-    submit(".btn");
+    submit("#newRecipe");
     assertThat(pageSource()).contains("Pasta");
   }
-  //
-  //  @Test
-  //   public void categoryIsCreatedTest() {
-  //     goTo("http://localhost:4567/");
-  //     click("a", withText("Categories"));
-  //     fill("#name").with("The Alchemist");
-  //     submit(".btn");
-  //     assertThat(pageSource()).contains("The Alchemist");
-  // }
-  //
-  // @Test
-  // public void recipeShowPageDisplaysName() {
-  //   Recipe testRecipe = new Recipe("Pasta");
-  //   testRecipe.save();
-  //   String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
-  //   goTo(url);
-  //   assertThat(pageSource()).contains("Pasta");
-  // }
-  //
-  // @Test
-  // public void categoryShowPageDisplaysName() {
-  //   Category testCategory = new Category("The Alchemist");
-  //   testCategory.save();
-  //   String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
-  //   goTo(url);
-  //   assertThat(pageSource()).contains("The Alchemist");
-  // }
-  //
-  // @Test
-  // public void categoryIsAddedToRecipe() {
-  //   Recipe testRecipe = new Recipe("Pasta");
-  //   testRecipe.save();
-  //   Category testCategory = new Category("The Alchemist");
-  //   testCategory.save();
-  //   String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
-  //   goTo(url);
-  //   fillSelect("#category_id").withText("The Alchemist");
-  //   submit(".btn");
-  //   assertThat(pageSource()).contains("<li>");
-  //   assertThat(pageSource()).contains("The Alchemist");
-  // }
-  //
-  // @Test
-  // public void recipeIsAddedToCategory() {
-  //   Recipe testRecipe = new Recipe("Pasta");
-  //   testRecipe.save();
-  //   Category testCategory = new Category("The Alchemist");
-  //   testCategory.save();
-  //   String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
-  //   goTo(url);
-  //   fillSelect("#recipe_id").withText("Pasta");
-  //   submit(".btn");
-  //   assertThat(pageSource()).contains("<li>");
-  //   assertThat(pageSource()).contains("Pasta");
-  // }
-  // @Test
-  // public void categoryUpdate() {
-  //   Category myCategory = new Category("Veronica Decides To Die");
-  //   myCategory.save();
-  //   String categoryPath = String.format("http://localhost:4567/categories/%d", myCategory.getId());
-  //   goTo(categoryPath);
-  //   click("a", withText("Edit this category"));
-  //   fill("#category-update").with("Veronica Decides To Live");
-  //   submit("#update-category");
-  //   assertThat(pageSource()).doesNotContain("Veronica Decides To Die");
-  // }
-  //
-  // @Test
-  // public void categoryDelete() {
-  //   Category myCategory = new Category("Veronica Decides To Die");
-  //   myCategory.save();
-  //   String categoryPath = String.format("http://localhost:4567/categories/%d", myCategory.getId());
-  //   goTo(categoryPath);
-  //   click("a", withText("Delete this category"));
-  //   String allCategoriesPath = String.format("http://localhost:4567/categories/");
-  //   goTo(allCategoriesPath);
-  //   assertThat(pageSource()).doesNotContain("Veronica Decides To Die");
-  // }
-  // @Test
-  // public void recipeUpdate() {
-  //   Recipe myRecipe = new Recipe("Pasta");
-  //   myRecipe.save();
-  //   String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
-  //   goTo(recipePath);
-  //   click("a", withText("Edit this recipe"));
-  //   fill("#recipe-update").with("Paulo De Coelho");
-  //   submit("#update-recipe");
-  //   assertThat(pageSource()).doesNotContain("Pasta");
-  // }
-  //
-  // @Test
-  // public void recipeDelete() {
-  //   Recipe myRecipe = new Recipe("Pasta");
-  //   myRecipe.save();
-  //   String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
-  //   goTo(recipePath);
-  //   click("a", withText("Delete this recipe"));
-  //   String allRecipesPath = String.format("http://localhost:4567/recipes/");
-  //   goTo(allRecipesPath);
-  //   assertThat(pageSource()).doesNotContain("Pasta");
-  // }
-  //
-  // @Test
-  // public void categorySearchByRecipeName() {
-  //   Recipe testRecipe = new Recipe("Pasta");
-  //   testRecipe.save();
-  //   Category testCategory = new Category("The Alchemist");
-  //   testCategory.save();
-  //   String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
-  //   goTo(url);
-  //   fillSelect("#recipe_id").withText("Pasta");
-  //   submit(".btn");
-  //   goTo("http://localhost:4567/");
-  //   click("a", withText("Search for a category"));
-  //   fill("#category-search").with("Pasta");
-  //   submit("#search-button");
-  //   assertThat(pageSource()).contains("The Alchemist");
-  // }
+
+  @Test
+  public void categoryIsCreatedTest() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Categories"));
+    fill("#name").with("Italian");
+    submit("#addNewCat");
+    assertThat(pageSource()).contains("Italian");
+  }
+
+  @Test
+  public void recipeShowPageDisplaysName() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
+    goTo(url);
+    assertThat(pageSource()).contains("Pasta");
+  }
+
+  @Test
+  public void categoryShowPageDisplaysName() {
+    Category testCategory = new Category("Italian");
+    testCategory.save();
+    String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
+    goTo(url);
+    assertThat(pageSource()).contains("Italian");
+  }
+
+  @Test
+  public void categoryIsAddedToRecipe() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Category testCategory = new Category("Italian");
+    testCategory.save();
+    String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
+    goTo(url);
+    fillSelect("#category_id").withText("Italian");
+    submit(".btn");
+    assertThat(pageSource()).contains("<li>");
+    assertThat(pageSource()).contains("Italian");
+  }
+
+  @Test
+  public void recipeIsAddedToCategory() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Category testCategory = new Category("Italian");
+    testCategory.save();
+    String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
+    goTo(url);
+    fillSelect("#recipe_id").withText("Pasta");
+    submit(".btn");
+    assertThat(pageSource()).contains("<li>");
+    assertThat(pageSource()).contains("Pasta");
+  }
+  @Test
+  public void categoryUpdate() {
+    Category myCategory = new Category("Veronica Decides To Die");
+    myCategory.save();
+    String categoryPath = String.format("http://localhost:4567/categories/%d", myCategory.getId());
+    goTo(categoryPath);
+    click("a", withText("Edit this category"));
+    fill("#category-update").with("Veronica Decides To Live");
+    submit("#update-category");
+    assertThat(pageSource()).doesNotContain("Veronica Decides To Die");
+  }
+
+  @Test
+  public void categoryDelete() {
+    Category myCategory = new Category("Veronica Decides To Die");
+    myCategory.save();
+    String categoryPath = String.format("http://localhost:4567/categories/%d", myCategory.getId());
+    goTo(categoryPath);
+    click("a", withText("Delete this category"));
+    String allCategoriesPath = String.format("http://localhost:4567/categories/");
+    goTo(allCategoriesPath);
+    assertThat(pageSource()).doesNotContain("Veronica Decides To Die");
+  }
+  @Test
+  public void recipeUpdate() {
+    Recipe myRecipe = new Recipe("Pasta");
+    myRecipe.save();
+    String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
+    goTo(recipePath);
+    click("a", withText("Edit this recipe"));
+    fill("#recipe-update").with("Paulo De Coelho");
+    submit("#update-recipe");
+    assertThat(pageSource()).doesNotContain("Pasta");
+  }
+
+  @Test
+  public void recipeDelete() {
+    Recipe myRecipe = new Recipe("Pasta");
+    myRecipe.save();
+    String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
+    goTo(recipePath);
+    click("a", withText("Delete this recipe"));
+    String allRecipesPath = String.format("http://localhost:4567/recipes/");
+    goTo(allRecipesPath);
+    assertThat(pageSource()).doesNotContain("Pasta");
+  }
+
+  @Test
+  public void categorySearchByRecipeName() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Category testCategory = new Category("Italian");
+    testCategory.save();
+    String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
+    goTo(url);
+    fillSelect("#recipe_id").withText("Pasta");
+    submit(".btn");
+    goTo("http://localhost:4567/");
+    click("a", withText("Search for a category"));
+    fillSelect("#recipe_id").withText("Pasta");
+    submit("#search-button");
+    assertThat(pageSource()).contains("Italian");
+  }
+
+  @Test
+  public void getRatingForRecipe() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    String url = String.format("http://localhost:4567/recipes");
+    goTo(url);
+    click("a", withText("Pasta"));
+    click("a", withText("Edit this recipe"));
+    fill("#recipe-update").with("Chicken Salad");
+    fill("#rating-update").with("4");
+    submit("#update-recipe");
+    assertThat(pageSource()).contains("4");
+  }
 }

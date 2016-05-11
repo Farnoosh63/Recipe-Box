@@ -22,6 +22,20 @@ public class RecipeTest {
   }
 
   @Test
+  public void defaultRating_initiateCorrectly_int() {
+    Recipe myRecipe = new Recipe("Pasta");
+    assertEquals(3, myRecipe.getRating());
+  }
+
+  @Test
+  public void getRating_getTheRating_int() {
+    Recipe myRecipe = new Recipe("Pasta");
+    myRecipe.save();
+    myRecipe.updateRating(5);
+    assertEquals(5, myRecipe.findRating());
+  }
+
+  @Test
   public void all_emptyAtFirst() {
     assertEquals(Recipe.all().size(), 0);
   }
@@ -79,28 +93,28 @@ public class RecipeTest {
   }
 
   @Test
-  public void getTags_returnsAllTags_List() {
+  public void getIngredients_returnsAllIngredients_List() {
     Recipe myRecipe = new Recipe("Pasta");
     myRecipe.save();
-    Tag myTag = new Tag("savory");
-    myTag.save();
-    myRecipe.addTag(myTag);
-    List savedTags = myRecipe.getTags();
-    assertEquals(1, savedTags.size());
+    Ingredient myIngredient = new Ingredient("savory");
+    myIngredient.save();
+    myRecipe.addIngredient(myIngredient);
+    List savedIngredients= myRecipe.getIngredients();
+    assertEquals(1, savedIngredients.size());
   }
 
   @Test
-  public void delete_deletesAllCategoriesAndTagsAndRecipesAssociations() {
+  public void delete_deletesAllCategoriesAndIngredientsAndRecipesAssociations() {
     Recipe myRecipe = new Recipe("Pasta");
     myRecipe.save();
     Category myCategory = new Category("Italian");
     myCategory.save();
     myRecipe.addCategory(myCategory);
-    Tag myTag = new Tag("savory");
-    myTag.save();
-    myRecipe.addTag(myTag);
+    Ingredient myIngredient = new Ingredient("savory");
+    myIngredient.save();
+    myRecipe.addIngredient(myIngredient);
     myRecipe.delete();
     assertEquals(0, myCategory.getRecipes().size());
-    assertEquals(0, myTag.getRecipes().size());
+    assertEquals(0, myIngredient.getRecipes().size());
   }
 }

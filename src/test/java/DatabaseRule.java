@@ -13,14 +13,14 @@ import org.sql2o.*;
     try(Connection con = DB.sql2o.open()) {
       String deleteCategoriesQuery = "DELETE FROM categories *;";
       String deleteRecipesQuery = "DELETE FROM recipes *;";
-      String deleteTagsQuery = "DELETE FROM tags *;";
+      String deleteIngredientsQuery = "DELETE FROM ingredients*;";
       String deleteRecipesCategoriesQuery = "DELETE FROM recipes_categories *;";
-      String deleteRecipesTagsQuery = "DELETE FROM recipes_tags *;";
+      String deleteRecipesIngredientsQuery = "DELETE FROM recipes_ingredients*;";
       con.createQuery(deleteCategoriesQuery).executeUpdate();
       con.createQuery(deleteRecipesQuery).executeUpdate();
-      con.createQuery(deleteTagsQuery).executeUpdate();
+      con.createQuery(deleteIngredientsQuery).executeUpdate();
       con.createQuery(deleteRecipesCategoriesQuery).executeUpdate();
-      con.createQuery(deleteRecipesTagsQuery).executeUpdate();
+      con.createQuery(deleteRecipesIngredientsQuery).executeUpdate();
     }
   }
 }
