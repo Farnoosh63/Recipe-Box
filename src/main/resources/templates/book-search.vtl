@@ -1,0 +1,20 @@
+
+<p>Category Search By Recipe</p>
+
+<form action='/categories/search' method='post'>
+  <label for="recipe_id">Select an recipe</label>
+  <select id='recipe_id' name='recipe_id' type='text'>
+    #foreach($recipe in $allRecipes)
+      <option value="$recipe.getId()"> $recipe.getName() </option>
+    #end
+  </select>
+  <button type="submit" class="btn btn-info">Search</button>
+</form>
+
+<a href="/$category.all()">Return to categories</a>
+
+<ul>
+  #foreach ($category in $categories)
+    <li><a href="/category.getId()">$category.getName()</a></li>
+  #end
+</ul>

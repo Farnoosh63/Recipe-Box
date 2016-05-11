@@ -1,0 +1,18 @@
+<h1>$category.getName()</h1>
+
+<p>Edit category:</p>
+
+<form action="/categories/$category.getId()/edit" method="post">
+  <input id="category_update_id" name="category_update_id" type="hidden" value="$category.getId()">
+  <label for="category-update">Update to:</label>
+  <input id="category-update" name="category-update" type="text">
+  <button type="submit" class="btn btn-info" id="update-category">Update Category</button>
+</form>
+
+<a href="/$category.all()">Return to categories</a>
+
+<ul>
+  #foreach ($category in $categories)
+    <li><a href="/category.getId()">$category.getName()</a></li>
+  #end
+</ul>

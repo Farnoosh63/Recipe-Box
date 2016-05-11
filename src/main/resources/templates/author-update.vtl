@@ -1,0 +1,18 @@
+<h1>$recipe.getName()</h1>
+
+<p>Edit recipe:</p>
+
+<form action="/recipes/$recipe.getId()/edit" method="post">
+  <input id="recipe_update_id" name="recipe_update_id" type="hidden" value="$recipe.getId()">
+  <label for="recipe-update">Update to:</label>
+  <input id="recipe-update" name="recipe-update" type="text">
+  <button type="submit" class="btn btn-info" id="update-recipe">Update Recipe</button>
+</form>
+
+<a href="/$recipe.all()">Return to recipes</a>
+
+<ul>
+  #foreach ($recipe in $recipes)
+    <li><a href="/recipe.getId()">$recipe.getName()</a></li>
+  #end
+</ul>

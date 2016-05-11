@@ -1,0 +1,17 @@
+<h1>All recipes</h1>
+
+<ul>
+  #foreach ($recipe in $recipes)
+    <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a></li>
+  #end
+</ul>
+
+<p>Add a new recipe:</p>
+
+<form action="/recipes" method="post">
+  <label for="name">Recipe name</label>
+  <input id="name" name="name" type="text">
+  <button type="submit" class="btn btn-success">Add Recipe</button>
+</form>
+
+<p><a href="/">Home</a></p>

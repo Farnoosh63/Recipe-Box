@@ -1,0 +1,27 @@
+<h1>$category.getName()</h1>
+
+#if($category.getRecipes())
+  <p>Here are the recipes for this category:</p>
+  <ul>
+    #foreach($recipe in $category.getRecipes())
+      <li>$recipe.getName()</li>
+    #end
+  </ul>
+#end
+
+<h4>Add a recipe to this category:</h4>
+
+<form action='/add_recipes' method='post'>
+  <input id="category_id" name="category_id" type="hidden" value="$category.getId()">
+  <label for="recipe_id">Select an recipe</label>
+  <select id='recipe_id' name='recipe_id' type='text'>
+    #foreach($recipe in $allRecipes)
+      <option value="$recipe.getId()"> $recipe.getName() </option>
+    #end
+  </select>
+  <button type="submit" class="btn btn-info">Add recipe to this category</button>
+</form>
+
+<p><a href="/categories/$category.getId()/edit">Edit this category</a></p>
+<p><a href="/categories/$category.getId()/delete">Delete this category</a></p>
+<p><a href="/">Home</a></p>
