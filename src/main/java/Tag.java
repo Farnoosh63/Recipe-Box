@@ -22,7 +22,7 @@ public class Tag {
 
 
   public static List<Tag> all() {
-    String sql = "SELECT id, name FROM tags";
+    String sql = "SELECT id, tag_name FROM tags";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Tag.class);
     }

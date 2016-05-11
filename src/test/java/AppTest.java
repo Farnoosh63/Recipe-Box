@@ -5,7 +5,6 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
 import static org.junit.Assert.*;
@@ -30,14 +29,14 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Categories List!");
   }
 
-  // @Test
-  // public void recipeIsCreatedTest() {
-  //   goTo("http://localhost:4567/");
-  //   click("a", withText("Recipes"));
-  //   fill("#name").with("Paulo Coelho");
-  //   submit(".btn");
-  //   assertThat(pageSource()).contains("Paulo Coelho");
-  // }
+  @Test
+  public void recipeIsCreatedTest() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Recipes"));
+    fill("#name").with("Pasta");
+    submit(".btn");
+    assertThat(pageSource()).contains("Pasta");
+  }
   //
   //  @Test
   //   public void categoryIsCreatedTest() {
@@ -50,11 +49,11 @@ public class AppTest extends FluentTest {
   //
   // @Test
   // public void recipeShowPageDisplaysName() {
-  //   Recipe testRecipe = new Recipe("Paulo Coelho");
+  //   Recipe testRecipe = new Recipe("Pasta");
   //   testRecipe.save();
   //   String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
   //   goTo(url);
-  //   assertThat(pageSource()).contains("Paulo Coelho");
+  //   assertThat(pageSource()).contains("Pasta");
   // }
   //
   // @Test
@@ -68,7 +67,7 @@ public class AppTest extends FluentTest {
   //
   // @Test
   // public void categoryIsAddedToRecipe() {
-  //   Recipe testRecipe = new Recipe("Paulo Coelho");
+  //   Recipe testRecipe = new Recipe("Pasta");
   //   testRecipe.save();
   //   Category testCategory = new Category("The Alchemist");
   //   testCategory.save();
@@ -82,16 +81,16 @@ public class AppTest extends FluentTest {
   //
   // @Test
   // public void recipeIsAddedToCategory() {
-  //   Recipe testRecipe = new Recipe("Paulo Coelho");
+  //   Recipe testRecipe = new Recipe("Pasta");
   //   testRecipe.save();
   //   Category testCategory = new Category("The Alchemist");
   //   testCategory.save();
   //   String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
   //   goTo(url);
-  //   fillSelect("#recipe_id").withText("Paulo Coelho");
+  //   fillSelect("#recipe_id").withText("Pasta");
   //   submit(".btn");
   //   assertThat(pageSource()).contains("<li>");
-  //   assertThat(pageSource()).contains("Paulo Coelho");
+  //   assertThat(pageSource()).contains("Pasta");
   // }
   // @Test
   // public void categoryUpdate() {
@@ -118,41 +117,41 @@ public class AppTest extends FluentTest {
   // }
   // @Test
   // public void recipeUpdate() {
-  //   Recipe myRecipe = new Recipe("Paulo Coelho");
+  //   Recipe myRecipe = new Recipe("Pasta");
   //   myRecipe.save();
   //   String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
   //   goTo(recipePath);
   //   click("a", withText("Edit this recipe"));
   //   fill("#recipe-update").with("Paulo De Coelho");
   //   submit("#update-recipe");
-  //   assertThat(pageSource()).doesNotContain("Paulo Coelho");
+  //   assertThat(pageSource()).doesNotContain("Pasta");
   // }
   //
   // @Test
   // public void recipeDelete() {
-  //   Recipe myRecipe = new Recipe("Paulo Coelho");
+  //   Recipe myRecipe = new Recipe("Pasta");
   //   myRecipe.save();
   //   String recipePath = String.format("http://localhost:4567/recipes/%d", myRecipe.getId());
   //   goTo(recipePath);
   //   click("a", withText("Delete this recipe"));
   //   String allRecipesPath = String.format("http://localhost:4567/recipes/");
   //   goTo(allRecipesPath);
-  //   assertThat(pageSource()).doesNotContain("Paulo Coelho");
+  //   assertThat(pageSource()).doesNotContain("Pasta");
   // }
   //
   // @Test
   // public void categorySearchByRecipeName() {
-  //   Recipe testRecipe = new Recipe("Paulo Coelho");
+  //   Recipe testRecipe = new Recipe("Pasta");
   //   testRecipe.save();
   //   Category testCategory = new Category("The Alchemist");
   //   testCategory.save();
   //   String url = String.format("http://localhost:4567/categories/%d", testCategory.getId());
   //   goTo(url);
-  //   fillSelect("#recipe_id").withText("Paulo Coelho");
+  //   fillSelect("#recipe_id").withText("Pasta");
   //   submit(".btn");
   //   goTo("http://localhost:4567/");
   //   click("a", withText("Search for a category"));
-  //   fill("#category-search").with("Paulo Coelho");
+  //   fill("#category-search").with("Pasta");
   //   submit("#search-button");
   //   assertThat(pageSource()).contains("The Alchemist");
   // }

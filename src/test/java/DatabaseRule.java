@@ -11,12 +11,16 @@ import org.sql2o.*;
   @Override
   protected void after() {
     try(Connection con = DB.sql2o.open()) {
-      // String deleteCategoriesQuery = "DELETE FROM categories *;";
-      String deleteRecipeQuery = "DELETE FROM recipes *;";
-      // String deleteRecipesCategoriesQuery = "DELETE FROM recipes_categories *;";
-      // con.createQuery(deleteCategoriesQuery).executeUpdate();
-      con.createQuery(deleteRecipeQuery).executeUpdate();
-      // con.createQuery(deleteRecipesCategoriesQuery).executeUpdate();
+      String deleteCategoriesQuery = "DELETE FROM categories *;";
+      String deleteRecipesQuery = "DELETE FROM recipes *;";
+      String deleteTagsQuery = "DELETE FROM tags *;";
+      String deleteRecipesCategoriesQuery = "DELETE FROM recipes_categories *;";
+      String deleteRecipesTagsQuery = "DELETE FROM recipes_tags *;";
+      con.createQuery(deleteCategoriesQuery).executeUpdate();
+      con.createQuery(deleteRecipesQuery).executeUpdate();
+      con.createQuery(deleteTagsQuery).executeUpdate();
+      con.createQuery(deleteRecipesCategoriesQuery).executeUpdate();
+      con.createQuery(deleteRecipesTagsQuery).executeUpdate();
     }
   }
 }

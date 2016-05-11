@@ -14,6 +14,7 @@ public class App {
 
     get("/", (request, response) -> {
     Map<String, Object> model = new HashMap<String, Object>();
+    model.put("recipes", Recipe.all());
     model.put("template", "templates/index.vtl");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
@@ -27,6 +28,7 @@ public class App {
 
     get("/categories", (request, response) -> {
         HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("recipes", Recipe.all());
         model.put("categories", Category.all());
         model.put("template", "templates/categories.vtl");
         return new ModelAndView(model, layout);
@@ -58,7 +60,7 @@ public class App {
      model.put("template", "templates/category-search.vtl");
        return new ModelAndView(model, layout);
      }, new VelocityTemplateEngine());
-    // 
+    //
     // // PROCESSES SEARCH FORM
     //  post("/categories/search", (request, response) -> {
     //    HashMap<String, Object> model = new HashMap<String, Object>();

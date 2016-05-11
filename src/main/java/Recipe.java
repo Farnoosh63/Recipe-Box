@@ -34,7 +34,7 @@ public class Recipe {
     } else {
       Recipe newRecipe = (Recipe) otherRecipe;
       return this.getName().equals(newRecipe.getName()) &&
-             this.getId() == newRecipe.getId();
+      this.getId() == newRecipe.getId();
     }
   }
 
@@ -42,9 +42,9 @@ public class Recipe {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO recipes(recipe_name) VALUES (:name)";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.recipe_name)
-        .executeUpdate()
-        .getKey();
+      .addParameter("name", this.recipe_name)
+      .executeUpdate()
+      .getKey();
     }
   }
 
@@ -52,8 +52,8 @@ public class Recipe {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM recipes where id=:id";
       Recipe recipe = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(Recipe.class);
+      .addParameter("id", id)
+      .executeAndFetchFirst(Recipe.class);
       return recipe;
     }
   }
@@ -87,13 +87,14 @@ public class Recipe {
   //   }
   // }
 
+
   public void addCategory(Category category) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO recipes_categories (recipe_id, category_id) VALUES (:recipe_id, :category_id)";
       con.createQuery(sql)
-        .addParameter("recipe_id", this.getId())
-        .addParameter("category_id", category.getId())
-        .executeUpdate();
+      .addParameter("recipe_id", this.getId())
+      .addParameter("category_id", category.getId())
+      .executeUpdate();
     }
   }
 
@@ -101,19 +102,51 @@ public class Recipe {
     try(Connection con = DB.sql2o.open()){
       String joinQuery = "SELECT category_id FROM recipes_categories WHERE recipe_id = :recipe_id";
       List<Integer> categoryIds = con.createQuery(joinQuery)
-        .addParameter("recipe_id", this.getId())
-        .executeAndFetch(Integer.class);
+      .addParameter("recipe_id", this.getId())
+      .executeAndFetch(Integer.class);
 
       List<Category> categories = new ArrayList<Category>();
 
       for (Integer categoryId : categoryIds) {
         String categoryQuery = "SELECT * FROM categories WHERE id = :categoryId";
         Category category = con.createQuery(categoryQuery)
-          .addParameter("categoryId", categoryId)
-          .executeAndFetchFirst(Category.class);
+        .addParameter("categoryId", categoryId)
+        .executeAndFetchFirst(Category.class);
         categories.add(category);
       }
       return categories;
+    }
+  }
+
+
+  public void addTag(Tag tag) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO recipes_tags (recipe_id, tag_id) VALUES (:recipe_id, :tag_id)";
+      con.createQuery(sql)
+      .addParameter("recipe_id", this.getId())
+      .addParameter("tag_id", tag.getId())
+      .executeUpdate();
+    }
+  }
+
+  public List<Tag> getTags() {
+    try(Connection con = DB.sql2o.open()){
+
+      String joinQuery = "SELECT tag_id FROM recipes_tags WHERE recipe_id = :recipe_id";
+      List<Integer> tagIds = con.createQuery(joinQuery)
+      .addParameter("recipe_id", this.getId())
+      .executeAndFetch(Integer.class);
+
+      List<Tag> tags = new ArrayList<Tag>();
+
+      for (Integer tagId : tagIds) {
+        String tagQuery = "SELECT * FROM tags WHERE id = :tagId";
+        Tag tag = con.createQuery(tagQuery)
+        .addParameter("tagId", tagId)
+        .executeAndFetchFirst(Tag.class);
+        tags.add(tag);
+      }
+      return tags;
     }
   }
 
@@ -122,24 +155,31 @@ public class Recipe {
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
       String deleteQuery = "DELETE FROM recipes WHERE id = :id;";
-        con.createQuery(deleteQuery)
-          .addParameter("id", this.getId())
-          .executeUpdate();
+      con.createQuery(deleteQuery)
+      .addParameter("id", this.getId())
+      .executeUpdate();
 
-      String joinDeleteQuery = "DELETE FROM recipes_categories WHERE recipe_id = :recipeId";
-        con.createQuery(joinDeleteQuery)
-          .addParameter("recipeId", this.getId())
-          .executeUpdate();
-      }
+      String joinDeleteRecipesCategoriesQuery = "DELETE FROM recipes_categories WHERE recipe_id = :recipeId";
+      con.createQuery(joinDeleteRecipesCategoriesQuery)
+      .addParameter("recipeId", this.getId())
+      .executeUpdate();
+
+
+      String joinDeleteRecipesTagsQuery = "DELETE FROM recipes_tags WHERE recipe_id = :recipeId";
+      con.createQuery(joinDeleteRecipesTagsQuery)
+      .addParameter("recipeId", this.getId())
+      .executeUpdate();
     }
-    public void update(String newRecipe) {
-      try(Connection con = DB.sql2o.open()) {
-        String sql = "UPDATE recipes SET recipe_name = :name WHERE id = :id";
-        con.createQuery(sql)
-          .addParameter("name", newRecipe)
-          .addParameter("id", this.id)
-          .executeUpdate();
-      }
+  }
+
+  public void update(String newRecipe) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE recipes SET recipe_name = :name WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("name", newRecipe)
+      .addParameter("id", this.id)
+      .executeUpdate();
     }
+  }
 
 }

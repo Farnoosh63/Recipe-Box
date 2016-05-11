@@ -1,5 +1,13 @@
 <h1>$recipe.getName()</h1>
 
+#if ($recipe.getTags())
+  <ul>
+    #foreach ($tag in $recipe.getTags())
+      <li><a href="/tag.getId()">$tag.getName()</a></li>
+    #end
+  </ul>
+#end
+
 <p>Edit recipe:</p>
 
 <form action="/recipes/$recipe.getId()/edit" method="post">
@@ -8,11 +16,3 @@
   <input id="recipe-update" name="recipe-update" type="text">
   <button type="submit" class="btn btn-info" id="update-recipe">Update Recipe</button>
 </form>
-
-<a href="/$recipe.all()">Return to recipes</a>
-
-<ul>
-  #foreach ($recipe in $recipes)
-    <li><a href="/recipe.getId()">$recipe.getName()</a></li>
-  #end
-</ul>

@@ -10,5 +10,17 @@
       #parse( $template )
 
     </div>
+
+    <div style="text-align: center;">
+      <a href="/">Return to home</a>
+
+      #if ($recipes)
+      <ul>
+        #foreach ($recipe in $recipes)
+          <li><a href="/recipe.getId()">$recipe.getName()</a></li>
+        #end
+      </ul>
+      #end
+    </div>
   </body>
 </html>
