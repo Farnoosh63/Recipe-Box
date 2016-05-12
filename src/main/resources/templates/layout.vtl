@@ -8,19 +8,7 @@
   <body>
     <div class="container">
       #parse( $template )
-      <div style="text-align: center;">
 
-
-        #if ($recipes)
-        <button><a href="/sorting" class="btn btn-link">Sort by rating <a></button>
-        <ul>
-          #foreach ($recipe in $recipes)
-            <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a> rating is: $recipe.getRating()</li>
-          #end
-        </ul>
-        #end
-
-      </div>
     </div>
     <footer style="text-align: center">
       <a href="/">Return to home</a>

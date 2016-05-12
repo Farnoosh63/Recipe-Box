@@ -53,8 +53,8 @@ public class App {
       return null;
     });
 
-    // SHOW SEARCH BOOKS FORM
-    get("/categories/search", (request, response) -> {
+    // SHOW SEARCH FORM
+    get("/search", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       if (request.queryParams().contains("recipe_id")){
         int recipeIdThatBeingSearched = Integer.parseInt(request.queryParams("recipe_id"));
@@ -64,7 +64,7 @@ public class App {
       if (request.queryParams().contains("ingredient_id")){
         int ingredientIdThatBeingSearched = Integer.parseInt(request.queryParams("ingredient_id"));
         List<Recipe> recipesSearched = Ingredient.find(ingredientIdThatBeingSearched).getRecipes();
-        model.put("recipes",recipesSearched );
+        model.put("recipes",recipesSearched);
       }
       model.put("allRecipes", Recipe.all());
       model.put("allIngredients", Ingredient.all());
@@ -72,10 +72,17 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/sorting", (request, response) -> {
+    get("/sortingAsc", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("recipes", Recipe.sortByRatings());
-      model.put("template", "templates/index.vtl");
+      model.put("recipes", Recipe.sortByAscending());
+      model.put("template", "templates/recipes.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/sortingDesc", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("recipes", Recipe.sortByDescending());
+      model.put("template", "templates/recipes.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -92,12 +99,61 @@ public class App {
     get("/recipes/:id", (request,response) ->{
       HashMap<String, Object> model = new HashMap<String, Object>();
       Recipe recipe = Recipe.find(Integer.parseInt(request.params(":id")));
-
       model.put("recipe", recipe);
       model.put("allCategories", Category.all());
       model.put("template", "templates/recipe.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    get("/allIngredients", (request,response) ->{
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("allIngredients", Ingredient.all());
+      model.put("template", "templates/allIngredients.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+  post("/allIngredients", (request, response) -> {
+    HashMap<String, Object> model = new HashMap<String, Object>();
+    int ingredientId = Integer.parseInt(request.queryParams("ingredient_id"));;
+    Ingredient ingredient = Ingredient.find(ingredientId);
+    response.redirect("/ingredient-update/" + ingredientId +"/edit");
+    return null;
+  });
+
+  get("/ingredient-update/:id/edit", (request,response) ->{
+    HashMap<String, Object> model = new HashMap<String, Object>();
+     int ingredientId = Integer.parseInt(request.params(":id"));;
+    Ingredient ingredient = Ingredient.find(ingredientId);
+    model.put("ingredient", ingredient);
+    model.put("template", "templates/ingredient-update.vtl");
+    return new ModelAndView(model, layout);
+  }, new VelocityTemplateEngine());
+
+    post("/ingredient-update/:id/edit", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int oldIngredientId = Integer.parseInt(request.params(":id"));
+      Ingredient oldIngredient = Ingredient.find(oldIngredientId);
+      String newIngredient = request.queryParams("ingredient-update");
+      oldIngredient.update(newIngredient);
+      System.out.println(oldIngredient);
+      model.put("allIngredients", oldIngredient);
+    response.redirect("/allIngredients");
+    return null;
+  });
+
+
+//    DO THE DELETE ingredient ACTION
+    get("/allIngredients/:id/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int ingredientId = Integer.parseInt(request.params(":id"));;
+      Ingredient ingredient = Ingredient.find(ingredientId);
+      ingredient.delete();
+      model.put("allIngredients", ingredient);
+      response.redirect("/allIngredients");
+      return null;
+    });
+
+
 
     post("/add_categories", (request, response) -> {
       int categoryId = Integer.parseInt(request.queryParams("category_id"));
@@ -131,7 +187,7 @@ public class App {
       response.redirect("/categories/" + categoryId);
       return null;
     });
-    // SHOW UPDATE BOOKS FORM - CLICK ON "a ingredient(href)"
+    // SHOW UPDATE category FORM - CLICK ON "a ingredient(href)"
     get("/categories/:id/edit", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Category category = Category.find(Integer.parseInt(request.params(":id")));
@@ -139,7 +195,8 @@ public class App {
       model.put("template", "templates/category-update.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-    // PROCESSES UPDATE BOOKS FORM
+
+    // PROCESSES UPDATE category FORM
     post("/categories/:id/edit", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Category oldCategory = Category.find(Integer.parseInt(request.params(":id")));
@@ -149,7 +206,7 @@ public class App {
       return null;
     });
 
-    // DO THE DELETE BOOK ACTION
+    // DO THE DELETE category ACTION
     get("/categories/:id/delete", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Category category = Category.find(Integer.parseInt(request.params(":id")));
@@ -158,7 +215,7 @@ public class App {
       return null;
     });
 
-    // SHOW UPDATE AUTHORS FORM - CLICK ON "a ingredient(href)"
+    // SHOW UPDATE recipe FORM
     get("/recipes/:id/edit", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Recipe recipe = Recipe.find(Integer.parseInt(request.params(":id")));
@@ -167,7 +224,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    // PROCESSES UPDATE AUTHORS FORM
+    // PROCESSES UPDATE recipe FORM
     post("/recipes/:id/edit", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Recipe oldRecipe = Recipe.find(Integer.parseInt(request.params(":id")));
@@ -179,7 +236,7 @@ public class App {
       return null;
     });
 
-    // DO THE DELETE AUTHOR ACTION
+    // DO THE DELETE recipe ACTION
     get("/recipes/:id/delete", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Recipe recipe = Recipe.find(Integer.parseInt(request.params(":id")));

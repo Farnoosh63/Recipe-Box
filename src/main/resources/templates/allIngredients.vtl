@@ -1,0 +1,24 @@
+<h1>All Ingredients in this App</h1>
+<form action="/allIngredients" method="post">
+  <div class="checkbox">
+    <label for="ingredient_id">Select a category</label>
+      #if($allIngredients)
+      <ul>
+          #foreach($ingredient in $allIngredients)
+            <li><input type="checkbox" value="$ingredient.getId()" id='ingredient_id' name='ingredient_id'>
+            $ingredient.getName()
+          </li>
+          #end
+      </ul>
+      #end
+    </label>
+  </div>
+
+  <button type="submit" id="update_ingredient" class="btn btn-default">Manage this Ingredient</button>
+
+</form>
+
+
+
+
+<p><a href="/recipes">Go back to recipes</a></p>

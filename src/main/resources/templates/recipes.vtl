@@ -7,4 +7,12 @@
   <button type="submit" id="newRecipe" class="btn btn-success">Add Recipe</button>
 </form>
 
-<p><a href="/">Home</a></p>
+#if ($recipes)
+<button><a href="/sortingAsc" id="ascending" class="btn btn-link">Sort by Ascending <a></button>
+<button><a href="/sortingDesc" id="descending"class="btn btn-link">Sort by Descending <a></button>
+<ul>
+  #foreach ($recipe in $recipes)
+    <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a> rating is: $recipe.getRating()</li>
+  #end
+</ul>
+#end

@@ -10,7 +10,6 @@
   </ul>
 #end
 
-
 <h5>Add a category to this recipe:</h5>
 
 <form action='/add_categories' method='post'>
@@ -21,7 +20,7 @@
       <option value="$category.getId()"> $category.getName() </option>
     #end
   </select>
-  <button type="submit" class="btn btn-info">Add category to this recipe</button>
+  <button type="submit" id="addCat" class="btn btn-info">Add category to this recipe</button>
 </form>
 
 <h5>Add a ingredient to this recipe:</h5>
@@ -40,7 +39,7 @@
     #end
   </ul>
 #end
-
+<p><a href="/allIngredients">Show All Ingredients in this App</a></p>
 <p><a href="/recipes/$recipe.getId()/edit">Edit this recipe</a></p>
 
 

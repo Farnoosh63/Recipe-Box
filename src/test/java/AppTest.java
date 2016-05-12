@@ -74,7 +74,7 @@ public class AppTest extends FluentTest {
     String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
     goTo(url);
     fillSelect("#category_id").withText("Italian");
-    submit(".btn");
+    submit("#addCat");
     assertThat(pageSource()).contains("<li>");
     assertThat(pageSource()).contains("Italian");
   }
@@ -157,6 +157,22 @@ public class AppTest extends FluentTest {
   }
 
   @Test
+  public void recipeSearchByIngredientName() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Ingredient testIngredient = new Ingredient("Tomato");
+    testIngredient.save();
+    String url = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
+    goTo(url);
+    fill("#ingredient_id").with("Tomato");
+    submit("#ingredient_id_button");
+    goTo("http://localhost:4567/search");
+    fillSelect("#ingredient_id").withText("Tomato");
+    submit("#searchByIngredient");
+    assertThat(pageSource()).contains("Pasta");
+  }
+
+  @Test
   public void getRatingForRecipe() {
     Recipe testRecipe = new Recipe("Pasta");
     testRecipe.save();
@@ -168,5 +184,45 @@ public class AppTest extends FluentTest {
     fill("#rating-update").with("4");
     submit("#update-recipe");
     assertThat(pageSource()).contains("4");
+  }
+
+  @Test
+  public void updateIngredient() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Ingredient testIngredient = new Ingredient("Tomato");
+    testIngredient.save();
+    String urlrecipe = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
+    goTo(urlrecipe);
+    click("a", withText("Show All Ingredients in this App"));
+    fill("#ingredient_id").with("Tomato");
+    submit("#update_ingredient");
+    String urlIngredient = String.format("http://localhost:4567/ingredient-update/%d/edit", testIngredient.getId());
+    goTo(urlIngredient);
+    assertThat(pageSource()).contains("Tomato");
+    fill("#ingredient-update").with("updated Tomato");
+    submit("#update-ingredient");
+    String urlAllIngredient = String.format("http://localhost:4567/allIngredients");
+    goTo(urlAllIngredient);
+    assertThat(pageSource()).contains("updated Tomato");
+  }
+
+  @Test
+  public void deleteIngredient() {
+    Recipe testRecipe = new Recipe("Pasta");
+    testRecipe.save();
+    Ingredient testIngredient = new Ingredient("Tomato");
+    testIngredient.save();
+    String urlrecipe = String.format("http://localhost:4567/recipes/%d", testRecipe.getId());
+    goTo(urlrecipe);
+    click("a", withText("Show All Ingredients in this App"));
+    fill("#ingredient_id").with("Tomato");
+    submit("#update_ingredient");
+    String urlIngredient = String.format("http://localhost:4567/ingredient-update/%d/edit", testIngredient.getId());
+    goTo(urlIngredient);
+    click("a", withText("Delete Ingredient"));
+    String urlAllIngredient = String.format("http://localhost:4567/allIngredients");
+    goTo(urlAllIngredient);
+    assertThat(pageSource()).doesNotContain("Tomato");
   }
 }

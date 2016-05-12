@@ -1,0 +1,14 @@
+<h1>$ingredient.getName()</h1>
+
+
+<p>Edit Ingredient:</p>
+
+<form action="/ingredient-update/$ingredient.getId()/edit" method="post">
+  <input id="ingredient_update_id" name="ingredient_update_id" type="hidden" value="$ingredient.getId()">
+  <label for="ingredient-update">Update to:</label>
+  <input id="ingredient-update" name="ingredient-update" type="text" required>
+
+  <button type="submit" class="btn btn-info" id="update-ingredient">Update Ingredient</button>
+</form>
+
+<a href="/allIngredients/$ingredient.getId()/delete" class="btn btn-danger" role="button">Delete Ingredient</a>

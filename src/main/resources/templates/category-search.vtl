@@ -4,7 +4,7 @@
     <div class="col-lg-6">
       <p>Category Search By Recipe</p>
 
-      <form action='/categories/search' method='get'>
+      <form action='/search' method='get'>
         <label for="recipe_id">Select an recipe</label>
         <select id='recipe_id' name='recipe_id' type='text'>
           #foreach($recipe in $allRecipes)
@@ -26,7 +26,7 @@
     <div class="col-lg-6">
       <p>Recipe Search By Ingredient</p>
 
-      <form action='/recipe/search' method='get'>
+      <form action='/search' method='get'>
         <label for="ingredient_id">Select an Ingredient</label>
         <select id='ingredient_id' name='ingredient_id' type='text'>
           #foreach($ingredient in $allIngredients)

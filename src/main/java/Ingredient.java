@@ -60,7 +60,7 @@ public class Ingredient {
   }
   public void update(String newIngredient) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE ingredientsSET ingredient_description= :name WHERE id = :id";
+      String sql = "UPDATE ingredients SET ingredient_description= :name WHERE id = :id";
       con.createQuery(sql)
         .addParameter("name", newIngredient)
         .addParameter("id", this.id)

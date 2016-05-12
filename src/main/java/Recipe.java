@@ -76,7 +76,7 @@ public class Recipe {
     }
   }
 
-  public static List<Recipe> sortByRatings() {
+  public static List<Recipe> sortByAscending() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM recipes ORDER BY rating ASC ";
 
@@ -84,34 +84,13 @@ public class Recipe {
     }
   }
 
+  public static List<Recipe> sortByDescending() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM recipes ORDER BY rating DESC ";
 
-  // public static List<String> findRecipeByName(String name) {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String sql = "SELECT id FROM recipes WHERE name=:name ";
-  //     List<Integer> recipeIds = con.createQuery(sql)
-  //       .addParameter("name", name)
-  //       .executeAndFetch(Integer.class);
-  //
-  //       List<Integer> categoryIds = new ArrayList<>();
-  //       for (Integer recipeId : recipeIds) {
-  //         String recipeQuery = "SELECT category_id FROM recipes_categories WHERE id = :recipeId";
-  //         Integer idForRecipe = con.createQuery(recipeQuery)
-  //           .addParameter("recipeId", recipeId)
-  //           .executeAndFetchFirst(Integer.class);
-  //         categoryIds.add(idForRecipe);
-  //       }
-  //       List<String> categoriesName = new ArrayList<String>();
-  //       for (Integer categoryId : categoryIds) {
-  //         String categoryQuery = "SELECT name FROM categories WHERE id = :categoryId";
-  //         String categoryNameById = con.createQuery(categoryQuery)
-  //           .addParameter("categoryId", categoryId)
-  //           .executeAndFetchFirst(String.class);
-  //         categoriesName.add(categoryNameById);
-  //       }
-  //       System.out.println(categoriesName);
-  //     return categoriesName ;
-  //   }
-  // }
+      return con.createQuery(sql).executeAndFetch(Recipe.class);
+    }
+  }
 
 
   public void addCategory(Category category) {
