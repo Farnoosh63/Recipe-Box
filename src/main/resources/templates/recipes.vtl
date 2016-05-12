@@ -1,18 +1,22 @@
 
-<p>Add a new recipe:</p>
+<h1>Add a new recipe:</h1>
 
 <form action="/recipes" method="post">
   <label for="name">Recipe name</label>
   <input id="name" name="name" type="text">
   <button type="submit" id="newRecipe" class="btn btn-success">Add Recipe</button>
 </form>
-
+<br/>
 #if ($recipes)
-<button><a href="/sortingAsc" id="ascending" class="btn btn-link">Sort by Ascending <a></button>
-<button><a href="/sortingDesc" id="descending"class="btn btn-link">Sort by Descending <a></button>
-<ul>
-  #foreach ($recipe in $recipes)
-    <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a> rating is: $recipe.getRating()</li>
-  #end
-</ul>
+  <a href="/sortingAsc" class="btn btn-warning" role="button">Sort by Ascending</a>
+
+  <br><br/>
+
+  <a href="/sortingDesc" class="btn btn-info" role="button">Sort by Descending</a>
+    <br><br/>
+  <ol>
+    #foreach ($recipe in $recipes)
+      <li><a href="/recipes/$recipe.getId()">$recipe.getName()</a> rating is:<strong> $recipe.getRating()</strong></li>
+    #end
+  </ol>
 #end
