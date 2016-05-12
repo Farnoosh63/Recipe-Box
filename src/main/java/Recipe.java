@@ -8,6 +8,7 @@ public class Recipe {
   private int id;
   private String recipe_name;
   private int rating;
+  private String image;
 
   public Recipe(String name) {
     this.recipe_name = name;
@@ -24,6 +25,10 @@ public class Recipe {
 
   public int getRating() {
     return rating;
+  }
+
+  public String getImage() {
+    return image;
   }
 
   public static List<Recipe> all() {
@@ -193,6 +198,16 @@ public class Recipe {
       String sql = "UPDATE recipes SET rating = :rating WHERE id = :id";
       con.createQuery(sql)
       .addParameter("rating", newRating)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
+  }
+
+  public void uploadImage(String url) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE recipes SET image = :image WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("image", url)
       .addParameter("id", this.id)
       .executeUpdate();
     }

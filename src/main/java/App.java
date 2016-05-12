@@ -165,6 +165,8 @@ public class App {
       return null;
     });
 
+
+
     post("/add_ingredients", (request, response) -> {
       String ingredient_description = request.queryParams("ingredient_id");
 
@@ -173,10 +175,10 @@ public class App {
       Ingredient ingredient = new Ingredient(ingredient_description);
       ingredient.save();
       recipe.addIngredient(ingredient);
-      System.out.println(ingredient.getName());
       response.redirect("/recipes/" + recipeId);
       return null;
     });
+
 
     post("/add_recipes", (request, response) -> {
       int categoryId = Integer.parseInt(request.queryParams("category_id"));
@@ -203,6 +205,16 @@ public class App {
       String newCategory = request.queryParams("category-update");
       oldCategory.update(newCategory);
       response.redirect("/categories");
+      return null;
+    });
+
+    post("/addImage", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int recipeId = Integer.parseInt(request.queryParams("recipe_id"));
+      Recipe oldRecipe = Recipe.find(recipeId);
+      String newImage = request.queryParams("imageUpload");
+      oldRecipe.uploadImage(newImage);
+      response.redirect("/recipes/" + recipeId);
       return null;
     });
 

@@ -32,6 +32,17 @@
   <button id="ingredient_id_button" type="submit" class="btn btn-info">Add ingredient to this recipe</button>
 </form>
 
+<h5>Add an image to this recipe:</h5>
+<p> go to the http://postimage.org/ to get the hotlink</p>
+
+<form action='/addImage' method='post'>
+  <input id="recipe_id" name="recipe_id" type="hidden" value="$recipe.getId()">
+  <label for="imageUpload">Add a url</label>
+  <input id="imageUpload" type="text" name="imageUpload">
+  <button id="image_id_button" type="submit" class="btn btn-info">Add image to this recipe</button>
+</form>
+
+
 #if($recipe.getIngredients())
   <ul>
     #foreach($ingredient in $recipe.getIngredients())
@@ -39,8 +50,15 @@
     #end
   </ul>
 #end
+
+
+
+
+
 <p><a href="/allIngredients">Show All Ingredients in this App</a></p>
 <p><a href="/recipes/$recipe.getId()/edit">Edit this recipe</a></p>
 
 
 <p><a href="/recipes/$recipe.getId()/delete">Delete this recipe</a></p>
+
+<img src="$recipe.getImage()" class="img-responsive" id="img">
